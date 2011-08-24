@@ -1,0 +1,55 @@
+<div id="main"></div>
+
+  <div class="process" style="display: none;">
+    <p>Process: <b>${name}</b></p>
+    <input type="button" class="start btn primary" value="Start" />
+    <input type="button" class="sigint btn" value="SIGINT" disabled="disabled" />
+    <input type="button" class="sigterm btn" value="SIGTERM" disabled="disabled" />
+    <pre class="logger"></pre>
+  </div>
+<div id="process_template" style="display: none;">
+  <div class="process_group">
+    <h2><img src="/images/icons/server--pencil.png" /> ${name}</h2>
+    <div class="status_icon">
+      <img src="/images/icons/status.png" class="stdout" />
+      <img src="/images/icons/status-busy.png" class="stderr" />
+    </div>
+    <div class="button_group">
+      <input type="button" value="Start" class="start btn primary" />
+      <input type="button" value="Stop" disabled="disabled" class="btn stop" />
+      <input type="button" value="Restart" disabled="disabled" class="btn restart" />
+      <input type="button" value="Log/Details" class="btn log" />
+    </div>
+    <p class="status red">Stopped</p>
+    <div class="expanded_info" />
+      <table class="group_info">
+        <tr>
+          <td class="label" colspan="2">Working Directory</td>
+          <td class="path" colspan="2">${workingDir}</td>
+        </tr>
+        <tr>
+          <td class="label" colspan="2">Command</td>
+          <td class="command" colspan="2">${command}</td>
+        </tr>
+        <tr>
+          <td class="label">PID</td>
+          <td class="pid">n/a</td>
+          <td class="label">Uptime</td>
+          <td>n/a</td>
+        </tr>
+        <tr>
+          <td class="label">Memory</td>
+          <td>n/a</td>
+          <td class="label">CPU</td>
+          <td>n/a</td>
+        </tr>
+      </table>
+      <div class="standard_input input-append">
+        <input type="text" size="20" class="medium" />
+        <span class="add-on">
+          <input type="button" value="Send" class="btn" />
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

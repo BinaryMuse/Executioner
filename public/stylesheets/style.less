@@ -1,0 +1,115 @@
+/*body {*/
+/*  padding: 50px*/
+/*  font:14px "Lucida Grande", Helvetica, Arial, sans-serif*/
+/*}*/
+
+div.process {
+  display: inline-block;
+  padding: 15px;
+}
+
+/*@precolor: #0000FF;*/
+/*pre {*/
+/*  color: @precolor;*/
+/*}*/
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 10px;
+}
+
+h1 {
+  font-size: 24pt;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 18pt;
+  font-weight: bold;
+  margin-right: 30px;
+}
+
+.red { color: #FF0000; }
+.green { color: green; }
+
+.path, .command {
+  font-family: monospace;
+}
+
+div.process_group {
+  min-width: 350px;
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  float: left;
+}
+
+div.process_group input[type=button] {
+  padding: 2px 4px;
+}
+
+div.process_group .button_group {
+  position: relative;
+  padding: 5px 0;
+}
+
+div.process_group .button_group input:last-child {
+  position: absolute;
+  right: 0px;
+}
+
+div.process_group .button_group p {
+  padding: 5px 0;
+  margin: 0;
+}
+
+.status_icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.status_icon img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+}
+
+/*div.process_group .status_icon img {*/
+/*  cursor: pointer;*/
+/*}*/
+
+.expanded_info {
+  /*display: none;*/
+}
+
+.expanded {
+  display: block;
+}
+
+.group_info td {
+  /*border: 1px solid black;*/
+  white-space: nowrap;
+  padding: 4px 8px;
+}
+
+.group_info .label {
+  font-weight: bold;
+  width: 1px;
+}
+
+.standard_input {
+  position: relative;
+}
+
+.standard_input input[type=text] {
+  width: 70%;
+}
+
+.standard_input input[type=button] {
+  width: 29%;
+}

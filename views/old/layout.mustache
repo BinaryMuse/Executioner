@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>{{title}}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      $(function() {
+        var myPid = null;
+        var appendText = function(newText) {
+          var el = $("#main");
+          var text = el.text();
+          el.text(text + newText);
+        }
+        var socket = io.connect("http://localhost");
+        socket.on("start", function(pid) {
+          appendText("Process started, pid: " + pid + "\n");
+          myPid = pid;
+          $("#start").attr('disabled', 'disabled');
+          $("#sigterm").attr('disabled', false);
+          $("#sigint").attr('disabled', false);
+        });
+        socket.on("stdout", function(data) {
+          appendText("Process gave stdout: " + data);
+        });
+        socket.on("stderr", function(data) {
+          appendText("Process gave stderr: " + data);
+        });
+        socket.on("stop", function(code) {
+          appendText("Process stopped with code: " + code + "\n");
+          $("#start").attr('disabled', false);
+          $("#sigint").attr('disabled', 'disabled');
+          $("#sigterm").attr('disabled', 'disabled');
+        });
+
+        $("#start").click(function() {
+          socket.emit('start');
+        });
+        $("#sigint").click(function() {
+          socket.emit('stop', myPid, 'SIGINT');
+        });
+        $("#sigterm").click(function() {
+          socket.emit('stop', myPid, 'SIGTERM');
+        });
+      });
+    </script>
+  </head>
+  <body>
+    {{{yield}}}
+  </body>
+</html>

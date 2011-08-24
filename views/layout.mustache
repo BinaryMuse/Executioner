@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.0/build/cssreset/reset-min.css">
+    <!--<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.0.0.min.css">-->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.less" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      $(function() {
+        var socket = io.connect("http://localhost");
+        var processes = {};
+        $.template("process", $("#process_template").html());
+
+        socket.on('definitions', function(data) {
+          for(var key in data) {
+            data[key].id = key;
+            var proc_block = $.tmpl("process", data[key]);
+            proc_block.data("proc", data[key]);
+            proc_block.appendTo("#main");
+            processes[key] = proc_block;
+          }
+        });
+
+        socket.on('start', function(id, pid) {
+          var el = processes[id];
+          $(el).find(".start").attr("disabled", "disabled");
+          $(el).find(".stop, .restart").attr("disabled", false);
+          $(el).find(".status").removeClass("red").addClass("green").html("Running");
+          $(el).find(".pid").html(pid);
+          var text = $(el).find(".logger").text();
+          $(el).find(".logger").text(text + "Process started: " + pid + "\n");
+        });
+
+        socket.on('stdout', function(id, data) {
+          /*var el = processes[id];
+          var text = $(el).find(".logger").text();
+          $(el).find(".logger").text(text + "Process gave stdout: " + data);*/
+          var el = processes[id];
+          var img = $(el).find(".status_icon .stdout");
+          $(img).show();
+          setTimeout(function() { $(img).hide(); }, 100);
+        });
+
+        socket.on('stderr', function(id, data) {
+          /*var el = processes[id];
+          var text = $(el).find(".logger").text();
+          $(el).find(".logger").text(text + "Process gave stderr: " + data);*/
+          var el = processes[id];
+          var img = $(el).find(".status_icon .stderr");
+          $(img).show();
+          setTimeout(function() { $(img).hide(); }, 100);
+        });
+
+        socket.on('stop', function(id, signal) {
+          var el = processes[id];
+          $(el).find(".status").removeClass("green").addClass("red").html("Stopped");
+          $(el).find(".pid").html("n/a");
+          $(el).find(".start").attr("disabled", false);
+          $(el).find(".stop, .restart").attr("disabled", "disabled");
+        });
+
+        $(".start").live("click", function() {
+          var data = $(this).parents(".process_group").data("proc");
+          socket.emit('start', data.id);
+        });
+
+        $(".stop").live("click", function() {
+          var data = $(this).parents(".process_group").data("proc");
+          socket.emit('stop', data.id, 'SIGINT');
+        });
+
+        $(".restart").live("click", function() {
+          var data = $(this).parents(".process_group").data("proc");
+          socket.emit('restart', data.id);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    {{{yield}}}
+  </body>
+</html>

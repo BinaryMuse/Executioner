@@ -1,0 +1,14 @@
+{
+    "name": "Executioner"
+  , "version": "0.0.1"
+  , "author": "Brandon Tilley"
+  , "email": "brandon@brandontilley.com"
+  , "private": true
+  , "dependencies": {
+      "express": "2.4.x"
+    , "less": "1.1.x"
+    , "stache": "0.1.x"
+    , "coffee-script": "1.1.x"
+    , "socket.io": "0.7.x"
+  }
+}
